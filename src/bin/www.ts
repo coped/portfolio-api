@@ -2,7 +2,7 @@
 
 import { app } from "../app";
 import debug from "debug";
-import http from "http";
+import { createServer } from "http";
 
 debug("portfolio-api:server");
 
@@ -10,14 +10,14 @@ debug("portfolio-api:server");
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -77,10 +77,31 @@ function onError(error: any) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
-  var addr = server.address();
+function onListening(): void {
+  const addr = server.address();
   if (addr) {
-    var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+    const bind =
+      typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
     debug("Listening on " + bind);
   }
 }
+
+/**
+ * Gracefully handle shutdowns
+ */
+
+process.on("SIGTERM", () => {
+  debug("SIGTERM signal received: closing HTTP server");
+  server.close(() => {
+    debug("HTTP server closed");
+  });
+  process.exit();
+});
+
+process.on("uncaughtException", () => {
+  debug("uncaughtException: closing HTTP server");
+  server.close(() => {
+    debug("HTTP server closed");
+  });
+  process.exit();
+});
