@@ -1,5 +1,7 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
+import { SendEmailCommand, SendEmailCommandOutput } from "@aws-sdk/client-ses";
+import { sesClient } from "../libs/sesClient";
 
 const router = Router();
 
@@ -23,8 +25,42 @@ router.post("/", (req: Request, res: Response): void => {
       error: `Missing required field(s): ${missingFields.join(", ")}`,
     });
   } else {
-    // Handle emailing.
-    res.sendStatus(200);
+    const message = `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`;
+
+    // Set the parameters
+    const params = {
+      Destination: {
+        /* required */
+        ToAddresses: ["dennisaaroncope@gmail.com"],
+      },
+      Message: {
+        /* required */
+        Body: {
+          Text: {
+            Charset: "UTF-8",
+            Data: message,
+          },
+        },
+        Subject: {
+          Charset: "UTF-8",
+          Data: "Message from coped.dev!",
+        },
+      },
+      Source: "noreply@coped.dev", // SENDER_ADDRESS
+    };
+
+    const run = async (): Promise<void | SendEmailCommandOutput> => {
+      try {
+        const data = await sesClient.send(new SendEmailCommand(params));
+        console.log("Success", data);
+        res.sendStatus(200);
+        return data; // For unit tests.
+      } catch (err) {
+        res.sendStatus(503);
+        console.log("Error", err);
+      }
+    };
+    run();
   }
 });
 
