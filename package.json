@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "clean": "rm -rf dist/* && tsc",
+    "compile": "rm -rf dist/* && tsc",
     "serve": "DEBUG=portfolio-api:* node ./dist/bin/www.js",
     "start": "ts-node-dev ./src/bin/www.ts"
   },

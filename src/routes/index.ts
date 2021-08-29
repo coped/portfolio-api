@@ -1,10 +1,13 @@
-import express from "express";
+import { Router } from "express";
+import type { Request, Response } from "express";
 
-const router = express.Router();
+const router = Router();
 
-/* GET home page. */
-router.get("/", (req, res) => {
-  res.render("index", { title: "Express" });
+/**
+ * GET index response
+ */
+router.get("/", (req: Request, res: Response): void => {
+  res.json({ message: "Hello, world!" });
 });
 
 export { router };

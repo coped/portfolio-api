@@ -10,7 +10,7 @@ debug("portfolio-api:server");
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "8000");
 app.set("port", port);
 
 /**
@@ -31,7 +31,7 @@ server.on("listening", onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val: string) {
+function normalizePort(val: string): string | number | false {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -51,7 +51,7 @@ function normalizePort(val: string) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error: any) {
+function onError(error: any): void {
   if (error.syscall !== "listen") {
     throw error;
   }
@@ -90,7 +90,7 @@ function onListening(): void {
  * Gracefully handle shutdowns
  */
 
-process.on("SIGTERM", () => {
+process.on("SIGTERM", (): void => {
   debug("SIGTERM signal received: closing HTTP server");
   server.close(() => {
     debug("HTTP server closed");
@@ -98,7 +98,7 @@ process.on("SIGTERM", () => {
   process.exit();
 });
 
-process.on("uncaughtException", () => {
+process.on("uncaughtException", (): void => {
   debug("uncaughtException: closing HTTP server");
   server.close(() => {
     debug("HTTP server closed");
