@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { app } from "../app";
 import debug from "debug";
 import { createServer } from "http";
+import { app } from "../app";
 
 debug("portfolio-api:server");
 
@@ -32,9 +32,9 @@ server.on("listening", onListening);
  */
 
 function normalizePort(val: string): string | number | false {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
-  if (isNaN(port)) {
+  if (Number.isNaN(port)) {
     // named pipe
     return val;
   }
@@ -56,16 +56,16 @@ function onError(error: any): void {
     throw error;
   }
 
-  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+  const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case "EACCES":
-      console.error(bind + " requires elevated privileges");
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case "EADDRINUSE":
-      console.error(bind + " is already in use");
+      console.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -81,8 +81,8 @@ function onListening(): void {
   const addr = server.address();
   if (addr) {
     const bind =
-      typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-    debug("Listening on " + bind);
+      typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
+    debug(`Listening on ${bind}`);
   }
 }
 

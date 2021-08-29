@@ -1,3 +1,4 @@
+import type { Request, Response } from "express";
 import createError from "http-errors";
 import express from "express";
 import path from "path";
@@ -5,8 +6,6 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import { router as indexRouter } from "./routes/index";
 import { router as contactRouter } from "./routes/contact";
-
-import type { Request, Response } from "express";
 
 const app = express();
 
@@ -30,9 +29,9 @@ app.use((err: any, req: Request, res: Response): void => {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
+  // show a generic error message
   res.status(err.status || 500);
-  res.render("error");
+  res.json({ error: err });
 });
 
 export { app };
