@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "compile": "rm -rf dist/* && tsc",
-    "serve": "DEBUG=portfolio-api:* node ./dist/bin/www.js",
+    "serve": "node ./dist/bin/www.js",
     "start": "ts-node-dev ./src/bin/www.ts"
   },
   "dependencies": {
