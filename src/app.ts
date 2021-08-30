@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import { router as indexRouter } from "./routes/index";
 import { router as contactRouter } from "./routes/contact";
+import { ENV } from "./utils/constants";
 
 const app = express();
 
@@ -27,7 +28,7 @@ app.use((req, res, next) => {
 app.use((err: any, req: Request, res: Response): void => {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  res.locals.error = req.app.get("env") === ENV.DEVELOPMENT ? err : {};
 
   // show a generic error message
   res.status(err.status || 500);

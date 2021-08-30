@@ -49,15 +49,16 @@ router.post("/", (req: Request, res: Response): void => {
       Source: "noreply@coped.dev", // SENDER_ADDRESS
     };
 
-    const run = async (): Promise<void | SendEmailCommandOutput> => {
+    const run = async (): Promise<SendEmailCommandOutput | unknown> => {
       try {
         const data = await sesClient.send(new SendEmailCommand(params));
         console.log("Success", data);
         res.sendStatus(200);
         return data; // For unit tests.
       } catch (err) {
-        res.sendStatus(503);
         console.log("Error", err);
+        res.sendStatus(503);
+        return err;
       }
     };
     run();
