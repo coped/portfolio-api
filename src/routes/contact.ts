@@ -1,5 +1,5 @@
-import { Router } from "express";
 import type { Request, Response } from "express";
+import { Router } from "express";
 import { SendEmailCommand, SendEmailCommandOutput } from "@aws-sdk/client-ses";
 import { sesClient } from "../libs/sesClient";
 

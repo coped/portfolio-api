@@ -15,6 +15,7 @@
     "@typescript-eslint/quotes": [2, "double"],
     "quotes": [2, "double"],
     "import/prefer-default-export": "off",
-    "@typescript-eslint/comma-dangle": "off"
+    "@typescript-eslint/comma-dangle": "off",
+    "arrow-body-style": "off"
   }
 }

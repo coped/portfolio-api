@@ -1,9 +1,11 @@
 import type { Request, Response } from "express";
+import type { CorsOptions } from "cors";
 import createError from "http-errors";
 import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import cors from "cors";
 import { router as indexRouter } from "./routes/index";
 import { router as contactRouter } from "./routes/contact";
 import { ENV } from "./utils/constants";
@@ -15,6 +17,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+// Configure CORS options
+const corsOptions: CorsOptions = {
+  origin: "*", // Allowing all origins, temporarily
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 app.use("/", indexRouter);
 app.use("/contact", contactRouter);
