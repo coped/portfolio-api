@@ -6,7 +6,7 @@
     "compile": "rm -rf dist/* && tsc",
     "serve": "node ./dist/bin/www.js",
     "watch": "ts-node-dev ./src/bin/www.ts",
-    "start": "npm run compile && npm run serve"
+    "start": "npm ci && npm run compile && npm run serve"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.28.0",
