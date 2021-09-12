@@ -2,13 +2,13 @@ import type { Request, Response } from "express";
 import type { CorsOptions } from "cors";
 import createError from "http-errors";
 import express from "express";
-import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-import { router as indexRouter } from "./routes/index";
-import { router as contactRouter } from "./routes/contact";
-import { ENV } from "./utils/constants";
+import { router as indexRouter } from "./routes/index.js";
+import { router as contactRouter } from "./routes/contact.js";
+import { ENV } from "./utils/constants.js";
+import { jsonError } from "./utils/utils.js";
 
 const app = express();
 
@@ -16,7 +16,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
 // Configure CORS options
 const corsOptions: CorsOptions = {
@@ -25,6 +24,7 @@ const corsOptions: CorsOptions = {
 };
 app.use(cors(corsOptions));
 
+// Define handlers
 app.use("/", indexRouter);
 app.use("/contact", contactRouter);
 
@@ -41,7 +41,7 @@ app.use((err: any, req: Request, res: Response): void => {
 
   // show a generic error message
   res.status(err.status || 500);
-  res.json({ error: err });
+  res.json(jsonError(err));
 });
 
 export { app };

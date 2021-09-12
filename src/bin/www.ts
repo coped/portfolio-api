@@ -2,7 +2,10 @@
 
 import debug from "debug";
 import { createServer } from "http";
-import { app } from "../app";
+import dotenv from "dotenv";
+import { app } from "../app.js";
+
+dotenv.config();
 
 debug("portfolio-api:server");
 
