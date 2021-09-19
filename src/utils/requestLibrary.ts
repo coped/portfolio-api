@@ -1,21 +1,19 @@
-import type { AxiosResponse } from "axios";
-import axios from "axios";
+import type { Response } from "node-fetch";
+import type {
+  SendEmailCommandInput,
+  SendEmailCommandOutput,
+} from "@aws-sdk/client-ses";
+import fetch, { Response as FetchResponse } from "node-fetch";
+import { SendEmailCommand } from "@aws-sdk/client-ses";
+import { sesClient } from "../libs/sesClient.js";
 
-type RecaptchaResponse = { success: boolean; score: number };
-
-const handleRequest = async <T>(
-  f: () => Promise<AxiosResponse>
-): Promise<AxiosResponse<T | null>> => {
+const handleRequest = async <T = Response>(
+  f: () => Promise<T>
+): Promise<T | Response> => {
   try {
     return await f();
   } catch (e: unknown) {
-    return {
-      data: null,
-      status: 500,
-      statusText: "Error",
-      headers: null,
-      config: {},
-    };
+    return FetchResponse.error();
   }
 };
 
@@ -29,13 +27,20 @@ export const verifyRecaptcha = (token: string) => {
   });
 
   const request = () =>
-    axios.post(
-      "https://www.google.com/recaptcha/api/siteverify",
-      body.toString(),
-      {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      }
-    );
+    fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      body: body.toString(),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
 
-  return handleRequest<RecaptchaResponse>(request);
+  return handleRequest(request);
+};
+
+/**
+ * Send email using AWS SES email client
+ */
+export const sendAWSEmail = (params: SendEmailCommandInput) => {
+  const request = () => sesClient.send(new SendEmailCommand(params));
+
+  return handleRequest<SendEmailCommandOutput>(request);
 };

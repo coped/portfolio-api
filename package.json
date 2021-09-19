@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "rm -rf dist/* && tsc",
     "serve": "node ./dist/bin/www.js",
-    "watch": "ts-node-dev ./src/bin/www.ts",
+    "watch": "npm run compile && nodemon ./src/bin/www.ts",
     "start": "npm ci && npm run compile && npm run serve"
   },
   "dependencies": {
@@ -18,7 +18,8 @@
     "dotenv": "^10.0.0",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
@@ -35,7 +36,8 @@
     "eslint-config-airbnb-typescript": "^14.0.0",
     "eslint-plugin-import": "^2.24.2",
     "husky": "^7.0.2",
-    "ts-node-dev": "^1.1.8",
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
   }
 }
