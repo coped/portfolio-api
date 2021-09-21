@@ -5,8 +5,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import cors from "cors";
-import { router as indexRouter } from "./routes/index.js";
-import { router as contactRouter } from "./routes/contact.js";
+import { router as index } from "./routes/index.js";
+import { router as contact } from "./routes/contact.js";
 import { ENV } from "./utils/constants.js";
 import { jsonError } from "./utils/utils.js";
 
@@ -24,9 +24,9 @@ const corsOptions: CorsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Define handlers
-app.use("/", indexRouter);
-app.use("/contact", contactRouter);
+// Define route handlers
+app.use("/", index);
+app.use("/contact", contact);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
