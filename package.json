@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "compile": "rm -rf dist/* && tsc",
-    "serve": "node ./dist/bin/www.js",
     "watch": "npm run compile && nodemon ./src/bin/www.ts",
-    "start": "npm ci && npm run compile && npm run serve"
+    "serve:dev": "NODE_ENV=development node ./dist/bin/www.js",
+    "serve:prod": "NODE_ENV=production node ./dist/bin/www.js",
+    "start:dev": "npm run compile && npm run serve:dev",
+    "start": "npm ci && npm run compile && npm run serve:prod"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.28.0",
