@@ -3,7 +3,7 @@ export enum ENV {
   PRODUCTION = "production",
 }
 
-export enum ResponseText {
+export enum Text {
   RECAPTCHA_SERVICE_FAIL = "An error occurred while attempting to contact reCAPTCHA services",
   RECAPTCHA_VERIFY_FAIL = "reCAPTCHA verification failed",
   AWS_SERVICE_FAIL = "An error occurred while attempting to contact AWS services.",
