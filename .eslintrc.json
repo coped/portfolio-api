@@ -19,6 +19,7 @@
     "arrow-body-style": "off",
     "implicit-arrow-linebreak": "off",
     "no-use-before-define": ["error", { "variables": false }],
-    "function-paren-newline": "off"
+    "function-paren-newline": "off",
+    "max-len": "off"
   }
 }

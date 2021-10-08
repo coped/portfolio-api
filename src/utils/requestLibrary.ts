@@ -1,9 +1,9 @@
 import type { Response } from "node-fetch";
 import type { SendEmailCommandInput } from "@aws-sdk/client-ses";
-import fetch, { Response as FetchResponse } from "node-fetch";
+import fetch, { Response as ResponseObject } from "node-fetch";
 import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { sesClient } from "../libs/sesClient.js";
-import { MimeTypes } from "./constants.js";
+import { MimeTypes, ExternalUrls } from "./constants.js";
 
 /**
  * Generic request handler
@@ -12,7 +12,7 @@ const handleRequest = async (f: () => Promise<Response>): Promise<Response> => {
   try {
     return await f();
   } catch (e: unknown) {
-    return FetchResponse.error();
+    return ResponseObject.error();
   }
 };
 
@@ -26,7 +26,7 @@ export const verifyRecaptcha = (token: string): Promise<Response> => {
   });
 
   const request = () =>
-    fetch("https://www.google.com/recaptcha/api/siteverify", {
+    fetch(ExternalUrls.RECAPTCHA_VERIFY, {
       method: "POST",
       body: body.toString(),
       headers: { "Content-Type": MimeTypes.URL_ENCODED },
@@ -43,8 +43,8 @@ export const sendAWSEmail = async (
 ): Promise<Response> => {
   try {
     const data = await sesClient.send(new SendEmailCommand(params));
-    return new FetchResponse(JSON.stringify(data));
+    return new ResponseObject(JSON.stringify(data));
   } catch (e: unknown) {
-    return FetchResponse.error();
+    return ResponseObject.error();
   }
 };
