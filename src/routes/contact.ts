@@ -12,8 +12,10 @@ import { Text, ENV } from "../utils/constants.js";
 const router = Router();
 
 interface RecaptchaData {
+  success: boolean;
   score: number;
 }
+
 const REQUIRED_FIELDS: string[] = ["name", "email", "message", "token"];
 
 /**
@@ -36,9 +38,7 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
     res
       .status(400)
       .json(
-        jsonError(
-          `${Text.REQUEST_FIELDS_MISSING}: ${missingFields.join(", ")}`
-        )
+        jsonError(`${Text.REQUEST_FIELDS_MISSING}: ${missingFields.join(", ")}`)
       );
     return;
   }
@@ -50,8 +50,17 @@ router.post("/", async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
+  const captchaData = (await verifyRes.json()) as {
+    success: boolean;
+  };
+
+  if (!captchaData.success) {
+    res.status(500).json(jsonError(Text.RECAPTCHA_RESPONSE_FAIL));
+    return;
+  }
+
   // Validate reCAPTCHA score was high enough
-  const { score } = (await verifyRes.json()) as RecaptchaData;
+  const { score } = captchaData as RecaptchaData;
   if (score < 0.5) {
     res.status(400).json(jsonError(Text.RECAPTCHA_VERIFY_FAIL));
     return;
