@@ -9,7 +9,8 @@
     "serve:dev": "NODE_ENV=development node ./dist/bin/www.js",
     "serve:prod": "NODE_ENV=production node ./dist/bin/www.js",
     "start:dev": "npm run compile && npm run serve:dev",
-    "start": "npm ci && npm run compile && npm run serve:prod"
+    "start": "npm ci && npm run compile && npm run serve:prod",
+    "test": "jest"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.28.0",
@@ -21,23 +22,31 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "^1.10.0",
+    "msw": "^0.35.0",
     "node-fetch": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-typescript": "^7.15.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",
     "@types/debug": "^4.1.7",
     "@types/express": "^4.17.13",
+    "@types/grecaptcha": "^3.0.3",
     "@types/http-errors": "^1.8.1",
+    "@types/jest": "^27.0.2",
     "@types/morgan": "^1.9.3",
     "@types/node": "^16.7.4",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
+    "babel-jest": "^27.2.4",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-airbnb-typescript": "^14.0.0",
     "eslint-plugin-import": "^2.24.2",
     "husky": "^7.0.2",
+    "jest": "^27.2.4",
     "nodemon": "^2.0.12",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"

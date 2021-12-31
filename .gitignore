@@ -6,6 +6,3 @@ dist
 
 # Ignore all environment files
 .env*
-
-# Ignore todo files
-.todo
